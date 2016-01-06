@@ -1,0 +1,56 @@
+<ul class="nav nav-pills">
+    <li role="presentation"><a href="#/menu">Завантажити зображення</a></li>
+    <li role="presentation" class="active"><a href="#/stat">Статистика</a></li>
+    <li role="presentation"><a href="#">Вийти</a></li>
+</ul>
+
+<div ng-if="authenticated" class="container" style="padding-top: 10px" ng-controller="StatController">
+    <form class="form-inline">
+        <label class="sr-only" for="inputHelpBlock">Input with help text</label>
+        <input type="text" id="inputHelpBlock" ng-model="image_url_input" class="form-control"
+               aria-describedby="helpBlock">
+        <button type="button" class="btn btn-success" ng-click="send_img_url()">Вперед</button>
+        <p id="helpBlock" class="help-block">Для отримання інформації про ip-адреси користувачів,<br>
+            які переглянули Ваше зображення, введіть посилання на зображення,<br>
+            в дане поле вводу і натисніть 'Вперед'</p>
+    </form>
+    <div class="alert alert-danger" ng-if="ctrl_error">
+        <div>
+            {{ctrl_error}}
+        </div>
+    </div>
+    <br>
+    <div ng-if="array_of_ips.length!=0" class="form-group">
+        <label for="exampleInputEmail1">Пошук по таблиці</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" ng-model="$parent.query" placeholder="Пошук...">
+    </div>
+    <div ng-if="array_of_ips.length!=0" class="bs-example" data-example-id="simple-table">
+        <h4>Всього записів: {{(array_of_ips | filter:query).length}}</h4>
+        <table class="table">
+            <!--<caption>Всього записів: {{(array_of_ips | filter:query).length}}</caption>-->
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>IP-адреса</th>
+                <th>дата</th>
+                <th>Назва зображення</th>
+                <th>Useragent</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="ip_row in array_of_ips | filter:$parent.query">
+                <th scope="row">{{$index+1}}</th>
+                <td>{{ip_row.ip}}</td>
+                <td>{{ip_row.date}}</td>
+                <td>{{ip_row.image_url}}</td>
+                <td>{{ip_row.user_agent}}</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <!--<label class="sr-only" for="inputHelpBlock">Input with help text</label>-->
+    <!--<input type="text" id="inputHelpBlock" class="form-control" aria-describedby="helpBlock">-->
+    <!--<button type="button" class="btn btn-success">Вперед</button>-->
+    <!--<span id="helpBlock" class="help-block">Для отримання інформації про ip-адреси користувачів, які переглянули Ваше зображення, введіть посилання на зображення, в дане поле вводу і натисніть 'Вперед'</span>-->
+</div>

@@ -1,0 +1,51 @@
+<ul class="nav nav-pills">
+    <li role="presentation" class="active"><a href="#/menu">Завантажити зображення</a></li>
+    <li role="presentation"><a href="#/stat">Статистика</a></li>
+    <li role="presentation"><a href="#">Вийти</a></li>
+</ul>
+<!--<form ng-if="authenticated" action="/file-upload" class="dropzone">
+    <div class="fallback">
+        <input name="file" type="file" multiple />
+    </div>
+</form>-->
+<div class="container">
+    <div ng-if="authenticated" ng-controller="myCtrl">
+        <!--<input type="file" file-model="myFile"/>-->
+        <br>
+
+        <div class="form-group">
+            <label for="exampleInputFile">Виберіть зображення:</label><br>
+            <input type="file" id="exampleInputFile" file-model="myFile"/><br>
+
+            <p class="help-block" ng-if="!image_url">Після завантаження файлу буде згенеровано посилання.</p><br>
+            <div ng-if="start_loading">
+                <p class="help-block">Йде завантаження...зачекайте будь-ласка</p><br>
+                <div class="wobblebar-loader">
+                    Завантаження…
+                </div>
+            </div>
+            <div class="container" ng-if="image_url">
+                <p class="help-block">Посилання на завантажене Вами зображення(обов'язково скопіюйте і запам'ятайте його):</p>
+                <a ng-click="navigationUrl(image_url)"><h3>{{image_url}}</h3></a>
+            </div>
+
+        </div>
+
+        <button type="button" class="btn btn-primary" ng-click="uploadFile()">Завантажити</button>
+        <!--<button ng-click="uploadFile()">upload me</button>-->
+        <div class="alert alert-danger" ng-if="post_error">
+            <div>
+                {{post_error}}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="alert alert-danger" ng-if="user.error||!authenticated||post_error">
+    <div ng-if="user.error">
+        <strong>There was an error: </strong> {{user.error.error}}
+        <br>Please go back and login again
+    </div>
+</div>
