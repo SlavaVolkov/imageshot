@@ -90,7 +90,7 @@
         }]);
 
     angular
-        .module('authApp').controller('myCtrl', ['$scope', 'fileUpload','$location', function ($scope,fileUpload,$location) {
+        .module('authApp').controller('myCtrl', ['$scope','$auth', 'fileUpload','$location', function ($scope,$auth,fileUpload,$location) {
             $scope.post_error = false;
             $scope.image_url=false;
             $scope.start_loading = false;
@@ -124,6 +124,22 @@
                     window.open(url, '_blank'); // in new tab
 
             };
+
+            $scope.logout = function() {
+
+                $auth.logout().then(function() {
+
+                    // Remove the authenticated user from local storage
+                    localStorage.removeItem('user');
+
+                    // Flip authenticated to false so that we no longer
+                    // show UI elements dependant on the user being logged in
+                    $rootScope.authenticated = false;
+
+                    // Remove the current user info from rootscope
+                    $rootScope.currentUser = null;
+                });
+            }
 
         }]);
 })();

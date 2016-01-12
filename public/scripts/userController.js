@@ -29,7 +29,7 @@
         // spot as the login method, ideally extracted out into
         // a service. For this simpler example we'll leave it here
         vm.logout = function() {
-
+            //alert('logout');
             $auth.logout().then(function() {
 
                 // Remove the authenticated user from local storage
@@ -43,6 +43,7 @@
                 $rootScope.currentUser = null;
             });
         }
+
     }
 
 })();

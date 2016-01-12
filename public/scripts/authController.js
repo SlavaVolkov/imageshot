@@ -57,8 +57,9 @@
 
                 // Everything worked out so we can now redirect to
                 // the users state to view the data
-                $state.go('users');
+                $state.go('menu');
             });
+
         }
     }
 

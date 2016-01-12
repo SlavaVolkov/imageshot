@@ -9,7 +9,7 @@
 
 
     angular
-        .module('authApp').controller('StatController', ['$scope', 'fileUpload', '$http', '$location', function ($scope, fileUpload, $http, $location) {
+        .module('authApp').controller('StatController', ['$scope','$auth', 'fileUpload', '$http', '$location', function ($scope,$auth, fileUpload, $http, $location) {
             $scope.ctrl_error = false;
             $scope.image_url_input = '';
             var image_name = '',
@@ -29,13 +29,18 @@
                         .success(function (res) {
                             console.log(res);
                             $scope.array_of_ips = res.rows;
-                            res.rows.forEach(function(item, i, arr) {
-                                console.log('Date'+new Date(item.date));
-                            });
+                            if(res.rows.length!=0){
+                                res.rows.forEach(function(item, i, arr) {
+                                    console.log('Date'+new Date(item.date));
+                                });
+                            }else{
+                                $scope.ctrl_error = 'Немає іп-адрес по даному посиланню!'
+                            }
+
                         })
                         .error(function (error) {
                             console.log(JSON.stringify(error));
-
+                            $scope.ctrl_error = JSON.stringify(error);
                         });
                 }
             };
@@ -43,6 +48,22 @@
             function getFilename(url) {
                 filename = url.replace(/^.*[\\\/]/, '');
                 return 'img' + '\/' + filename;                 //change img to uploads !!!!!!!!!!!!!!!!!!!!!!
+            }
+
+            $scope.logout = function() {
+
+                $auth.logout().then(function() {
+
+                    // Remove the authenticated user from local storage
+                    localStorage.removeItem('user');
+
+                    // Flip authenticated to false so that we no longer
+                    // show UI elements dependant on the user being logged in
+                    $rootScope.authenticated = false;
+
+                    // Remove the current user info from rootscope
+                    $rootScope.currentUser = null;
+                });
             }
 
         }]);
